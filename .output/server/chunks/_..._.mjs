@@ -1,5 +1,6 @@
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { E as ERROR_MESSAGES, d as defu, e as eventHandler, s as setCookie, a as appendHeader, b as sendRedirect, u as useTypedBackendConfig, c as useRuntimeConfig, g as getRequestURLFromRequest, p as parseCookies, f as getHeaders, h as getMethod, i as getQuery, j as createError, k as isMethod, r as readBody } from './nitro/node-server.mjs';
+import axios, { AxiosError } from 'axios';
 import { AuthHandler } from 'next-auth/core';
 import 'node:http';
 import 'node:https';
@@ -107,6 +108,31 @@ const NuxtAuthHandler = (nuxtAuthOptions) => {
   return handler;
 };
 
+const getApiUrl = (path = "") => {
+  const $config = useRuntimeConfig();
+  let baseUrl = $config.public.api.baseUrl || "";
+  let schema = "http";
+  if (baseUrl.includes("https://")) {
+    schema = "https";
+  }
+  baseUrl = baseUrl.replace(/https?:\/\//, "");
+  const route = baseUrl.split("/");
+  route.push(...path.split("/"));
+  return schema + "://" + route.filter(Boolean).join("/");
+};
+var Api;
+((Api2) => {
+  ((Auth2) => {
+    ((Login2) => {
+      Login2.url = () => getApiUrl("/auth/login");
+    })(Auth2.Login || (Auth2.Login = {}));
+    ((Dashboard2) => {
+      Dashboard2.url = () => getApiUrl("/auth/dashboard");
+    })(Auth2.Dashboard || (Auth2.Dashboard = {}));
+    Auth2.logout = "/auth/logout";
+  })(Api2.Auth || (Api2.Auth = {}));
+})(Api || (Api = {}));
+
 const _____ = NuxtAuthHandler({
   secret: process.env.AUTH_SECRET,
   pages: {
@@ -129,14 +155,43 @@ const _____ = NuxtAuthHandler({
         email: { label: "email", type: "email" },
         password: { label: "password", type: "password" }
       },
-      authorize(credentials, { query }) {
-        const user = { id: "1", name: "J Smith", email: "test@mail.com", password: "password", avatar: "https://www.gravatar.com/avatar/" };
-        if ((query == null ? void 0 : query.email) === user.email && (query == null ? void 0 : query.password) === user.password) {
-          return user;
-        } else {
-          console.error("Warning: Malicious login attempt registered, bad credentials provided");
-          return null;
+      async authorize(credentials, { query }) {
+        var _a, _b, _c, _d, _e, _f;
+        const url = Api.Auth.Login.url();
+        try {
+          const data = {
+            email: query.email,
+            password: query.password
+          };
+          const response = await axios({
+            url,
+            method: "POST",
+            data
+          });
+          if (response.status === 200) {
+            return {
+              ...response.data.user,
+              name: ((_b = (_a = response.data) == null ? void 0 : _a.user) == null ? void 0 : _b.firstName) + " " + ((_d = (_c = response.data) == null ? void 0 : _c.user) == null ? void 0 : _d.lastName),
+              token: (_e = response.data) == null ? void 0 : _e.token
+            };
+          } else if (response.data.message == "User not found") {
+            throw new Error("Wrong email or password");
+          } else {
+            if (!response.data.message)
+              throw new Error("An error occurred");
+            throw new Error(response.data.message);
+          }
+        } catch (error) {
+          if (error instanceof AxiosError) {
+            if (((_f = error.response) == null ? void 0 : _f.data.message) == "User not found") {
+              throw new Error("Wrong email or password");
+            }
+          } else if (error instanceof Error) {
+            throw error;
+          }
+          throw new Error("An error occurred");
         }
+        return null;
       }
     })
   ],
@@ -157,7 +212,6 @@ const _____ = NuxtAuthHandler({
         if (token.data) {
           session.user = token.data;
         }
-        console.log("session", session);
         return session;
       } catch (error) {
         throw error;

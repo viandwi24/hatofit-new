@@ -1,6 +1,6 @@
 globalThis._importMeta_={url:import.meta.url,env:process.env};import 'node:http';
 import 'node:https';
-export { R as default } from './chunks/nitro/node-server.mjs';
+export { T as default } from './chunks/nitro/node-server.mjs';
 import 'fs';
 import 'path';
 import 'requrl';
