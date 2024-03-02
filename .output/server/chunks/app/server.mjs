@@ -847,7 +847,7 @@ const _routes = [
     meta: __nuxt_page_meta$d || {},
     alias: (__nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.alias) || [],
     redirect: __nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.redirect,
-    component: () => import('./_nuxt/_id_-MaJ25-PM.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/_id_-k73Rqgar.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.name) ?? "dashboard.bak-user-sessions",
@@ -935,7 +935,7 @@ const _routes = [
     meta: __nuxt_page_meta$2 || {},
     alias: (__nuxt_page_meta$2 == null ? void 0 : __nuxt_page_meta$2.alias) || [],
     redirect: __nuxt_page_meta$2 == null ? void 0 : __nuxt_page_meta$2.redirect,
-    component: () => import('./_nuxt/_id_-4jD4oaBt.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/_id_-QvHkUVrO.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$1 == null ? void 0 : __nuxt_page_meta$1.name) ?? "dashboard-sessions",
@@ -1085,7 +1085,7 @@ const cfg0 = defineAppConfig({
 });
 const inlineConfig = {
   "nuxt": {
-    "buildId": "9b70743f-4035-4bb4-a0e0-22cf80067088"
+    "buildId": "3eb488e3-732b-4da4-ad3a-11cfe9c03b02"
   },
   "ui": {
     "primary": "green",

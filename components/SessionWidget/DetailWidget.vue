@@ -484,5 +484,13 @@ onMounted(() => {
         />
       </UCard>
     </template>
+    <div v-if="generated.length == 0">
+      <div
+        class="h-[600px] w-full rounded-lg bg-gray-100 dark:bg-gray-900 p-4 flex flex-col gap-4"
+      >
+        <div class="h-[50px] w-full rounded-lg bg-gray-300 dark:bg-gray-700 animate-pulse" />
+        <div class="flex-1 w-full rounded-lg bg-gray-300 dark:bg-gray-700 animate-pulse" />
+      </div>
+    </div>
   </div>
 </template>
