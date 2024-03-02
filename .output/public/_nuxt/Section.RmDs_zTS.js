@@ -1,1 +1,0 @@
-import{a6 as e,o,c as t,s as n}from"./entry.tkMfAKYY.js";import{_ as r}from"./_plugin-vue_export-helper.x3n3nnut.js";function d(){return e}const c={},a={class:"mb-8"};function _(s,f){return o(),t("div",a,[n(s.$slots,"default")])}const i=r(c,[["render",_]]);export{i as _,d as u};
