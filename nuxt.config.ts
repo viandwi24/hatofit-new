@@ -17,7 +17,17 @@ export default defineNuxtConfig({
     'nuxt-headlessui',
     'dayjs-nuxt',
     '@sidebase/nuxt-auth',
+    '@nuxtjs/i18n',
   ],
+
+  runtimeConfig: {
+    public: {
+      baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+      api: {
+        baseUrl: process.env.API_BASE_URL || 'http://localhost:3000',
+      },
+    }
+  },
 
   tailwindcss: {
     cssPath: '~/assets/scss/app.scss',
@@ -33,12 +43,9 @@ export default defineNuxtConfig({
     }
   },
 
-  runtimeConfig: {
-    public: {
-      baseUrl: process.env.BASE_URL || 'http://localhost:3000',
-      api: {
-        baseUrl: process.env.API_BASE_URL || 'http://localhost:3000',
-      },
-    }
-  },
+  i18n: {
+    locales: ['en', 'id'],
+    defaultLocale: 'en',
+    strategy: 'prefix_and_default',
+  }
 })

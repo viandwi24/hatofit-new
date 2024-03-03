@@ -7,19 +7,25 @@ const meta = {
   url: $config.public.baseUrl,
 }
 useSeoMeta({
-    title: meta.title,
-    description: meta.description,
-    ogTitle: meta.title,
-    ogDescription: meta.description,
-    ogImage: meta.image,
-    ogUrl: meta.url,
-  })
+  title: meta.title,
+  description: meta.description,
+  ogTitle: meta.title,
+  ogDescription: meta.description,
+  ogImage: meta.image,
+  ogUrl: meta.url,
+})
+const switchLocalePath = useSwitchLocalePath()
 
 const languages = [
   { id: 'id', name: 'Indonesia', icon: '🇮🇩' },
   { id: 'en', name: 'English', icon: '🇬🇧' },
 ]
 const languageSelected = ref(languages[1])
+
+watch(languageSelected, (value) => {
+  console.log('Language Selected:', value)
+  switchLocalePath(value.id)
+})
 
 const $auth = useAuth()
 </script>
@@ -96,7 +102,15 @@ const $auth = useAuth()
           &copy; {{ new Date().getFullYear() }}
           <UButton to="/" variant="link" class="">HATOFIT TEAM</UButton>
         </div>
-        <div>
+        <div class="flex items-center gap-1">
+          <div>
+            <ULink to="/privacy-policies">
+              <UButton variant="link" size="xs">
+                Privacy Policies
+              </UButton>
+            </ULink>
+          </div>
+          <div class="h-6 w-0.5 bg-gray-500/50 mr-2" />
           <ClientOnly>
             <USelectMenu v-model="languageSelected" :options="languages" option-attribute="name">
               <template #label>
